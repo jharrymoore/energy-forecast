@@ -93,7 +93,8 @@ class Tariff:
         st.table(
             output_df.round(2).T
         )
-        self.total_combined = total_elec + total_gas
+        # add 5% VAT
+        self.total_combined = (total_elec + total_gas) * 1.05
         self.monthly_gas = monthly_gas
         self.monthly_totals = {"gas": monthly_gas, "elec": monthly_elec}
 
@@ -138,7 +139,7 @@ def collect_forecasts(elec, gas, tariff):
 
 def plot_figure(tariffs: List[Tariff]):
     data = [t.monthly_totals for t in tariffs]
-    fig, axes = plt.subplots(1, len(data), figsize=(20, 8), sharey=True)
+    fig, axes = plt.subplots(1, len(data), figsize=(20, 8))
     
     title = [t.name for t in tariffs]
     for idx, ax in enumerate(axes.flatten()):
